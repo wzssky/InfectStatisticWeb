@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="log.getlog" %>
+<%@ page import="province.Province" %>
+<%@ page import="java.util.List" %>
 <html>
 <head>
     <title>ECharts</title>
@@ -15,6 +18,26 @@
     <style>#china-map {width:1000px; height: 1000px;margin: auto;}</style>
 </head>
 <body>
+<table class="table table-striped table-bordered table-hover table-condensed">
+<tr><th>省份</th>
+    <th>确诊人数</th>
+    <th>疑似患者</th>
+    <th>治愈人数</th>
+    <th>死亡人数</th>
+</tr>
+<%
+    List<Province> provinces = getlog.log();
+    for(Province province:provinces)
+    {
+%>
+<tr><td><%= province.getProvince()%></td>
+    <td><%= province.getIp()%></td>
+    <td><%= province.getSp()%></td>
+    <td><%= province.getCure()%></td>
+    <td><%= province.getDead()%></td>
+</tr>
+<% } %>
+</table>
 <div id="china-map"></div>
 <script>
     var myChart = echarts.init(document.getElementById('china-map'));
@@ -87,49 +110,22 @@
                     }
                 },
                 top:"3%",//组件距离容器的距离
-                data:[
-                    {name: '北京',value: Math.round(Math.random()*15000)},
-                    {name: '天津',value: Math.round(Math.random()*15000)},
-                    {name: '上海',value: Math.round(Math.random()*15000)},
-                    {name: '重庆',value: Math.round(Math.random()*15000)},
-                    {name: '河北',value: 0},
-                    {name: '河南',value: Math.round(Math.random()*15000)},
-                    {name: '云南',value: 5},
-                    {name: '辽宁',value: 305},
-                    {name: '黑龙江',value: Math.round(Math.random()*15000)},
-                    {name: '湖南',value: 200},
-                    {name: '安徽',value: Math.round(Math.random()*15000)},
-                    {name: '山东',value: Math.round(Math.random()*15000)},
-                    {name: '新疆',value: Math.round(Math.random()*15000)},
-                    {name: '江苏',value: Math.round(Math.random()*15000)},
-                    {name: '浙江',value: Math.round(Math.random()*15000)},
-                    {name: '江西',value: Math.round(Math.random()*15000)},
-                    {name: '湖北',value: Math.round(Math.random()*15000)},
-                    {name: '广西',value: Math.round(Math.random()*15000)},
-                    {name: '甘肃',value: Math.round(Math.random()*15000)},
-                    {name: '山西',value: Math.round(Math.random()*15000)},
-                    {name: '内蒙古',value: Math.round(Math.random()*15000)},
-                    {name: '陕西',value: Math.round(Math.random()*15000)},
-                    {name: '吉林',value: Math.round(Math.random()*15000)},
-                    {name: '福建',value: Math.round(Math.random()*15000)},
-                    {name: '贵州',value: Math.round(Math.random()*15000)},
-                    {name: '广东',value: Math.round(Math.random()*15000)},
-                    {name: '青海',value: Math.round(Math.random()*15000)},
-                    {name: '西藏',value: Math.round(Math.random()*15000)},
-                    {name: '四川',value: Math.round(Math.random()*15000)},
-                    {name: '宁夏',value: Math.round(Math.random()*15000)},
-                    {name: '海南',value: Math.round(Math.random()*15000)},
-                    {name: '台湾',value: Math.round(Math.random()*15000)},
-                    {name: '香港',value: Math.round(Math.random()*15000)},
-                    {name: '澳门',value: Math.round(Math.random()*15000)}
+                data:[ <%
+                    for(Province province : provinces)
+                    {
+                        if(!province.getProvince().equals("全国"))
+                        {
+                %>
+                    {name:'<%=province.getProvince()%>', value: <%=province.getIp()%>},
+                    <%}}%>
                 ]
             }
         ]
     };
     myChart.setOption(option);
-    myChart.on('mouseover', function (params) {
-        var dataIndex = params.dataIndex;
-        console.log(params);
+    myChart.on('click', function (params){
+        var name = params.name;
+        location.href = "line.jsp";
     });
 </script>
 </body>
