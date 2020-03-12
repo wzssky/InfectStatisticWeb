@@ -125,7 +125,7 @@
     myChart.setOption(option);
     myChart.on('click', function (params){
         var name = params.name;
-        location.href = "line.jsp";
+        location.href = "line.jsp"+"?"+"&province="+name;
     });
 </script>
 </body>
