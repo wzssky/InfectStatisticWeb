@@ -2,7 +2,7 @@ package log;
 
 import province.Province;
 import java.util.*;
-import java.text.Collator;
+import  java.io.IOException;
 import java.util.regex.*;
 import  java.io.*;
 import  java.lang.*;
@@ -22,6 +22,7 @@ public class getlog {
             listFileName.addAll(Arrays.asList(completNames));
         }
     }
+
     public static void InformationProcessing(String Path,List<Province> proList,Province allpro) //日志信息处理
     {
         int people;
@@ -39,13 +40,9 @@ public class getlog {
         try
         {
             File file = new File(Path);
-            if(!file .exists())
-            {
-                System.out.println("路径错误");
-                System.exit(0);
-            }
+            if(!file .exists()){}
             BufferedReader br = new BufferedReader(new FileReader(file));
-            String str = null;
+            String str;
             while ((str = br.readLine()) != null)
             {
                 Matcher num = number.matcher(str); // 现在创建 matcher 对象
@@ -120,7 +117,8 @@ public class getlog {
             e.printStackTrace();
         }
     }
-    public static List<Province> log(){
+    public static List<Province> province(String date)
+    {
         String[] Provinces = { "北京","天津","上海","重庆","河北","河南","云南","辽宁","黑龙江","湖南","安徽","山东",
                 "新疆","江苏","浙江","江西","湖北","广西","甘肃","山西","内蒙古","陕西","吉林","福建","贵州","广东",
                 "青海","西藏","四川","宁夏","海南","台湾","香港","澳门"};
@@ -133,11 +131,44 @@ public class getlog {
             Province provin = new Province(pro);
             proList.add(provin);
         }
-        getAllFileName("C:\\Users\\17782\\Desktop\\InfectStatisticWeb\\web\\log",listFileName);
-        for(String name : listFileName)
+        File file = new File(getlog.class.getClassLoader().getResource("../../log").getPath());
+        try
         {
-            InformationProcessing("C:\\Users\\17782\\Desktop\\InfectStatisticWeb\\web\\log\\"+name+".log.txt",proList,allpro);
-        }
+            String path = file.getAbsolutePath();
+            getAllFileName(path,listFileName);
+            for(String name : listFileName)
+            {
+                if(date==null)
+                {
+                    InformationProcessing(path+"/"+name+".log.txt",proList,allpro);
+                    continue;
+                }
+                else if(listFileName.get(listFileName.size()-1).compareTo(date)<=0){}//若输入的日期超出最新的日志范围
+                else if (listFileName.get(0).compareTo(date) > 0) break; //若输入日期小于最旧的日志
+                else if(name.compareTo(date) > 0) break;
+                InformationProcessing(path+"/"+name+".log.txt",proList,allpro);
+            }
+        }catch(Exception e){}
         return proList;
+    }
+
+    public static List<Province> log(String date){
+        List<Province> proList = province(date);
+        return proList;
+    }
+    public static Province log(String Pro ,String date){
+        List<Province> proList = province(date);
+        Province pro = new Province(Pro);
+        for(Province pro1:proList)
+        {
+            if(pro1.getProvince().equals(Pro))
+            {
+                pro.setIp(pro1.getIp());
+                pro.setSp(pro1.getSp());
+                pro.setCure(pro1.getCure());
+                pro.setDead(pro1.getDead());
+            }
+        }
+        return pro;
     }
 }

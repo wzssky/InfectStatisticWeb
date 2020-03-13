@@ -26,7 +26,7 @@
     <th>死亡人数</th>
 </tr>
 <%
-    List<Province> provinces = getlog.log();
+    List<Province> provinces = getlog.log(null);
     for(Province province:provinces)
     {
 %>

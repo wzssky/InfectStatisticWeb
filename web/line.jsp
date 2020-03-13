@@ -20,19 +20,13 @@
 <div id="main" style="width: 600px;height:400px;"></div>
 <script type="text/javascript">
     <%
-    int ip = 0,sp = 0,cure = 0,dead = 0;
+    int ip,sp,cure,dead;
     String pro = request.getParameter("province");
-    List<Province> provinces = getlog.log();
-    for(Province province:provinces)
-    {
-        if(province.getProvince().equals(pro))
-        {
-            ip = province.getIp();
-            sp = province.getSp();
-            cure = province.getCure();
-            dead = province.getDead();
-        }
-    }
+    Province provinces = getlog.log(pro,null);
+    ip = provinces.getIp();
+    sp = provinces.getSp();
+    cure = provinces.getCure();
+    dead = provinces.getDead();
 %>
     var myChart = echarts.init(document.getElementById('main'));
     var option = {
