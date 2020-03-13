@@ -7,20 +7,27 @@ import java.util.regex.*;
 import  java.io.*;
 import  java.lang.*;
 public class getlog {
-    public static void getAllFileName(String path,ArrayList<String> listFileName) //得到日志名字
+    public static List<String>getAllFileName() //得到日志名字
     {
+        ArrayList<String> listFileName = new ArrayList<>();
         String patterndate = "\\d+-\\d+-\\d+";
         Pattern date = Pattern.compile(patterndate); // 创建 Pattern 对象
-        File file = new File(path);
-        String [] names = file.list();
-        if(names != null){
-            String [] completNames = new String[names.length];
-            for(int i=0;i < names.length;i++){
-                Matcher Date = date.matcher(names[i]); // 创建 matcher 对象
-                if(Date.find()) completNames[i] = Date.group(0);
+        File file = new File(getlog.class.getClassLoader().getResource("../../log").getPath());
+        try
+        {
+            String path = file.getAbsolutePath();
+            File file1 = new File(path);
+            String [] names = file1.list();
+            if(names != null){
+                String [] completNames = new String[names.length];
+                for(int i=0;i < names.length;i++){
+                    Matcher Date = date.matcher(names[i]); // 创建 matcher 对象
+                    if(Date.find()) completNames[i] = Date.group(0);
+                }
+                listFileName.addAll(Arrays.asList(completNames));
             }
-            listFileName.addAll(Arrays.asList(completNames));
-        }
+        }catch (Exception e){}
+        return listFileName;
     }
 
     public static void InformationProcessing(String Path,List<Province> proList,Province allpro) //日志信息处理
@@ -121,9 +128,9 @@ public class getlog {
     {
         String[] Provinces = { "北京","天津","上海","重庆","河北","河南","云南","辽宁","黑龙江","湖南","安徽","山东",
                 "新疆","江苏","浙江","江西","湖北","广西","甘肃","山西","内蒙古","陕西","吉林","福建","贵州","广东",
-                "青海","西藏","四川","宁夏","海南","台湾","香港","澳门"};
+                "青海","西藏","四川","宁夏","海南","台湾","香港","澳门","南海诸岛"};
         List<Province> proList = new ArrayList<>();
-        ArrayList<String> listFileName = new ArrayList<>();
+        List<String> listFileName;
         Province allpro = new Province("全国"); // 创建全国对象
         proList.add(allpro);
         for(String pro:  Provinces)
@@ -135,7 +142,7 @@ public class getlog {
         try
         {
             String path = file.getAbsolutePath();
-            getAllFileName(path,listFileName);
+            listFileName = getAllFileName();
             for(String name : listFileName)
             {
                 if(date==null)
@@ -143,7 +150,6 @@ public class getlog {
                     InformationProcessing(path+"/"+name+".log.txt",proList,allpro);
                     continue;
                 }
-                else if(listFileName.get(listFileName.size()-1).compareTo(date)<=0){}//若输入的日期超出最新的日志范围
                 else if (listFileName.get(0).compareTo(date) > 0) break; //若输入日期小于最旧的日志
                 else if(name.compareTo(date) > 0) break;
                 InformationProcessing(path+"/"+name+".log.txt",proList,allpro);

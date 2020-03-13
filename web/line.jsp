@@ -12,22 +12,23 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>折线图</title>
+    <title>省份日期折线图</title>
     <script src="js/echarts.js"></script>
     <style>#main {width:1000px; height: 1000px;margin: auto;}</style>
 </head>
 <body>
-<div id="main" style="width: 600px;height:400px;"></div>
-<script type="text/javascript">
-    <%
+<%
     int ip,sp,cure,dead;
     String pro = request.getParameter("province");
+    List<String> date = getlog.getAllFileName();
     Province provinces = getlog.log(pro,null);
     ip = provinces.getIp();
     sp = provinces.getSp();
     cure = provinces.getCure();
     dead = provinces.getDead();
 %>
+<div id="main" style="width: 600px;height:400px;"></div>
+<script type="text/javascript">
     var myChart = echarts.init(document.getElementById('main'));
     var option = {
         title: {
@@ -47,6 +48,40 @@
             data: [<%=ip%>,<%=sp%>,<%=cure%>,<%=dead%>,]
         }]
     };
+    myChart.setOption(option);
+</script>
+<div id="chart1" style="width:1000px; height: 400px;"></div>
+<script type="text/javascript">
+    //指定图标的配置和数据
+    var option = {
+        title:{
+            text:'折线图'
+        },
+        tooltip : {//提示框组件。
+            trigger: 'item',
+            formatter:'{a}<br>时间:{b}<br>确诊:{c}人'
+        },
+        legend:{},
+        xAxis:{
+            data:[
+                 <% for(String Date : date){ %>
+                 "<%=Date%>",
+                <% } %>
+                 ]
+        },
+        yAxis:{
+        },
+        series:[{
+            name:'<%=pro%>地区确诊人数',
+            type:'line',
+            data:[
+                <% for(String Date : date){ %>
+                "<%=getlog.log(pro,Date).getIp()%>",
+                <% } %>
+            ]
+        }]
+    };
+    var myChart = echarts.init(document.getElementById('chart1'));
     myChart.setOption(option);
 </script>
 </body>

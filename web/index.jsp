@@ -18,27 +18,7 @@
     <style>#china-map {width:1000px; height: 1000px;margin: auto;}</style>
 </head>
 <body>
-<table class="table table-striped table-bordered table-hover table-condensed">
-<tr><th>省份</th>
-    <th>确诊人数</th>
-    <th>疑似患者</th>
-    <th>治愈人数</th>
-    <th>死亡人数</th>
-</tr>
-<%
-    List<Province> provinces = getlog.log(null);
-    for(Province province:provinces)
-    {
-%>
-<tr><td><%= province.getProvince()%></td>
-    <td><%= province.getIp()%></td>
-    <td><%= province.getSp()%></td>
-    <td><%= province.getCure()%></td>
-    <td><%= province.getDead()%></td>
-</tr>
-<% } %>
-</table>
-<div id="china-map"></div>
+<div id = "china-map"></div>
 <script>
     var myChart = echarts.init(document.getElementById('china-map'));
     var option = {
@@ -65,10 +45,8 @@
                 {start: 100, end: 999},
                 {start: 10, end: 99},
                 {start: 1, end: 9},
-                {start:0, end: 0}
+                {start: 0, end: 0}
             ],
-//            min: 0,
-//            max: 2500,
  //           calculable : true,//颜色呈条状
         },
         toolbox: {//工具栏
@@ -110,12 +88,14 @@
                     }
                 },
                 top:"3%",//组件距离容器的距离
-                data:[ <%
-                    for(Province province : provinces)
-                    {
-                        if(!province.getProvince().equals("全国"))
+                data:[
+                    <%
+                        List<Province> provinces = getlog.log(null);
+                        for(Province province : provinces)
                         {
-                %>
+                            if(!province.getProvince().equals("全国"))
+                            {
+                    %>
                     {name:'<%=province.getProvince()%>', value: <%=province.getIp()%>},
                     <%}}%>
                 ]
