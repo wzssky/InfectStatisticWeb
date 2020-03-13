@@ -25,6 +25,12 @@
 </div>
 <div id = "china-map"></div>
 <script>
+    function date() {
+        var content = document.getElementById("time");//input的id
+        $("time").val();
+        window.alert(content.value);
+        window.location.href = "index.jsp?&date="+content.value;
+    }
     var myChart = echarts.init(document.getElementById('china-map'));
     var option = {
         title : {
