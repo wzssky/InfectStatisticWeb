@@ -58,7 +58,6 @@
                 {start: 1, end: 9},
                 {start: 0, end: 0}
             ],
- //           calculable : true,//颜色呈条状
         },
         toolbox: {//工具栏
             show: true,
@@ -121,7 +120,6 @@
         location.href = "line.jsp?&province="+name;
     });
 </script>
-<%=date%>
 </body>
 </html>
 
