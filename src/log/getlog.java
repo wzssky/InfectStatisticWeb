@@ -15,9 +15,8 @@ public class getlog {
         File file = new File(getlog.class.getClassLoader().getResource("../../log").getPath());
         try
         {
-            String path = file.getAbsolutePath();
-            File file1 = new File(path);
-            String [] names = file1.list();
+
+            String [] names = file.list();
             if(names != null){
                 String [] completNames = new String[names.length];
                 for(int i=0;i < names.length;i++){

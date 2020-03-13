@@ -20,8 +20,8 @@
 <%
     int ip,sp,cure,dead;
     String pro = request.getParameter("province");
-    List<String> date = getlog.getAllFileName();
-    Province provinces = getlog.log(pro,null);
+    List<String> date = getlog.getAllFileName();//得到日志文件名，即日期
+    Province provinces = getlog.log(pro,null);//输入省份名字和日期得到该日期该省的数据
     ip = provinces.getIp();
     sp = provinces.getSp();
     cure = provinces.getCure();

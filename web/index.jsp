@@ -18,8 +18,13 @@
     <style>#china-map {width:1000px; height: 1000px;margin: auto;}</style>
 </head>
 <body>
+<%
+    String date = null;
+    date = request.getParameter("date");
+    List<Province> provinces = getlog.log(date);//输入日期返回当前日期的省份列表数据
+%>
 <div class="row" style="background-color: silver; height: 50px">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期
+     日期
     <input type="text" name="time" id="time" placeholder="yyyy-MM-dd">
     <input type="button" value="查询" onclick="date()">
 </div>
@@ -100,9 +105,6 @@
                 top:"3%",//组件距离容器的距离
                 data:[
                     <%
-                        String date = null;
-                        date = request.getParameter("date");
-                        List<Province> provinces = getlog.log(date);
                         for(Province province : provinces)
                         {
                             if(!province.getProvince().equals("全国"))
