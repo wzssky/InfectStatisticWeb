@@ -18,6 +18,11 @@
     <style>#china-map {width:1000px; height: 1000px;margin: auto;}</style>
 </head>
 <body>
+<div class="row" style="background-color: silver; height: 50px">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期
+    <input type="text" name="time" id="time" placeholder="yyyy-MM-dd">
+    <input type="button" value="查询" onclick="date()">
+</div>
 <div id = "china-map"></div>
 <script>
     var myChart = echarts.init(document.getElementById('china-map'));
@@ -90,7 +95,9 @@
                 top:"3%",//组件距离容器的距离
                 data:[
                     <%
-                        List<Province> provinces = getlog.log(null);
+                        String date = null;
+                        date = request.getParameter("date");
+                        List<Province> provinces = getlog.log(date);
                         for(Province province : provinces)
                         {
                             if(!province.getProvince().equals("全国"))
@@ -105,9 +112,10 @@
     myChart.setOption(option);
     myChart.on('click', function (params){
         var name = params.name;
-        location.href = "line.jsp"+"?"+"&province="+name;
+        location.href = "line.jsp?&province="+name;
     });
 </script>
+<%=date%>
 </body>
 </html>
 
