@@ -15,19 +15,80 @@
     <script src="http://code.jquery.com/jquery-1.4.1.min.js"></script>
     <script src="js/echarts.js"></script>
     <script src="js/china.js"></script>
-    <style>#china-map {width:1000px; height: 1000px;margin: auto;}</style>
+    <style>#china-map { width:1000px; height: 1000px;margin: auto;}</style>
+    <style>#row{ background-color: white; height: 30px ;margin: auto;}</style>
+    <style>#Table { width:1000px; height: 150px;margin: auto;text-align:center;}</style>
+    <style>.size1{font-size: 20px;font-weight: bolder}</style>
+    <style>.size2{font-size: 25px;font-weight: bolder}</style>
+    <style>.size3{font-size: 15px;font-weight: bolder}</style>
+    <style>body { text-align:center}</style>
 </head>
 <body>
 <%
     String date = null;
+    int ip = 0,sp = 0,cure = 0,dead = 0;
+    String ipresult = null,spresult = null,cureresult = null,deadresult = null;
     date = request.getParameter("date");
+<<<<<<< HEAD
+    List<Province> provinces = getlog.log(date);//输入日期返回当前日期的省份列表数据
+    List<Province> provinceYes = getlog.logYesterday(date);//输入日期返回前一天的省份列表数据
+    for(Province province : provinces)
+    {
+        if(province.getProvince().equals("全国"))
+        {
+            ip = province.getIp();
+            sp = province.getSp();
+            cure = province.getCure();
+            dead = province.getDead();
+        }
+    }
+        for(Province province : provinceYes)
+    {
+        if(province.getProvince().equals("全国"))
+        {
+            if((ip - province.getIp())>0) ipresult = "+"+((ip - province.getIp())+"");
+            else if((ip - province.getIp())==0) ipresult = "无变化";
+            else ipresult = (ip - province.getIp())+"";
+            if((sp - province.getSp())>0) spresult = "+"+((sp - province.getSp())+"");
+            else if((sp - province.getSp())==0) spresult = "无变化";
+            else spresult = (sp - province.getSp())+"";
+            if((cure - province.getCure())>0) cureresult = "+"+((cure - province.getCure())+"");
+            else if((cure - province.getCure())==0) cureresult = "无变化";
+            else cureresult = (cure - province.getCure())+"";
+            if((dead - province.getDead())>0) deadresult = "+"+((dead - province.getDead())+"");
+            else if((dead - province.getDead())==0) deadresult = "无变化";
+            else deadresult = (dead - province.getDead())+"";
+        }
+    }
+=======
     List<Province> provinces = getlog.log(date);//输入日期返回当前日期的省份列表的相关数据
+>>>>>>> f4d47d29505967076a370a17727503ff2d1afb5f
 %>
-<div class="row" style="background-color: silver; height: 50px">
+<div id = "row">
      日期
     <input type="text" name="time" id="time" placeholder="yyyy-MM-dd">
     <input type="button" value="查询" onclick="date()">
 </div>
+<table id = "Table">
+    <tr class = "size1">
+        <th>现有确诊</th>
+        <th>现有疑似</th>
+        <th>累计治愈</th>
+    </tr>
+    <tr>
+        <td><p class = "size2" style="color: red"><%=ip%></p><p class = "size3">较昨日<%=ipresult%></p></td>
+        <td><p class="size2" style="color: orange"><%=sp%></p><p class = "size3">较昨日<%=spresult%></p></td>
+        <td><p class="size2" style="color: lawngreen"><%=cure%></p><p class = "size3">较昨日<%=cureresult%></p></td>
+    </tr>
+    <tr class = "size1">
+        <th>累计确诊</th>
+        <th>累计死亡</th>
+    </tr>
+    <tr class = "size2">
+        <td><p style="color: darkred"><%=ip+dead+cure%></p></td>
+        <td><p style="color: black"><%=dead%><p></td>
+    </tr>
+</table>
 <div id = "china-map"></div>
 <script>
     function date() {
