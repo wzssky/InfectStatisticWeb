@@ -21,7 +21,7 @@
 <%
     String date = null;
     date = request.getParameter("date");
-    List<Province> provinces = getlog.log(date);//输入日期返回当前日期的省份列表数据
+    List<Province> provinces = getlog.log(date);//输入日期返回当前日期的省份列表的相关数据
 %>
 <div class="row" style="background-color: silver; height: 50px">
      日期
@@ -42,8 +42,8 @@
             text: '全国疫情地图',
             x:'center'
         },
-        tooltip : {//提示框组件。
-            trigger: 'item',//数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。
+        tooltip : {//提示框组件
+            trigger: 'item',//数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用
             formatter:'{a}<br>地区:{b}<br>确诊:{c}人'
         },
         legend: {
@@ -69,7 +69,7 @@
             orient : 'vertical',//工具栏 icon 的布局朝向
             x: 'right',
             y: 'center',
-            feature : {//各工具配置项。
+            feature : {//各工具配置项
                 mark : {show: true},
                 dataView : {show: true, readOnly: false},//数据视图工具，可以展现当前图表所用的数据，编辑后可以动态更新。
                 restore : {show: true},//配置项还原。
