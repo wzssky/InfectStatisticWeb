@@ -14,7 +14,9 @@
     <meta charset="utf-8">
     <title>省份日期折线图</title>
     <script src="js/echarts.js"></script>
-    <style>#main {width:1000px; height: 1000px;margin: auto;}</style>
+    <style>body{text-align:center}</style>
+    <style>#chart1{ width:1000px; height: 400px;margin: auto;}</style>
+    <style>#chart2 {width:1000px; height: 400px;margin: auto;}</style>
 </head>
 <body>
 <%
@@ -27,9 +29,9 @@
     cure = provinces.getCure();
     dead = provinces.getDead();
 %>
-<div id="main" style="width: 600px;height:400px;"></div>
+<div id = "chart2"></div>
 <script type="text/javascript">
-    var myChart = echarts.init(document.getElementById('main'));
+    var myChart = echarts.init(document.getElementById('chart2'));
     var option = {
         title: {
             text:'<%=pro%>省份数据'
@@ -50,8 +52,8 @@
     };
     myChart.setOption(option);
 </script>
-<div id="chart1" style="width:1000px; height: 400px;"></div>
-<script type="text/javascript">
+<div id = "chart1"></div>
+<script type = "text/javascript">
     //指定图标的配置和数据
     var option = {
         title:{
