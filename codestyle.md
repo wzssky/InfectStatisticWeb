@@ -1,3 +1,5 @@
+###参考[阿里巴巴java开发规范](http://www.cnblogs.com/han-1034683568/p/7680354.html)
+
 ### 命名风格
 【强制】代码中的命名均不能以下划线或美元符号开始，也不能以下划线或美元符号结束。反 例 ：_name / name / Object/name/name Object / name_ / nameObject/name 
 /
