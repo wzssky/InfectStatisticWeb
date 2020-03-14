@@ -156,11 +156,68 @@ public class getlog {
         }catch(Exception e){}
         return proList;
     }
+    public static List<Province> provinceYesterday(String date)
+    {
+        String[] Provinces = { "北京","天津","上海","重庆","河北","河南","云南","辽宁","黑龙江","湖南","安徽","山东",
+                "新疆","江苏","浙江","江西","湖北","广西","甘肃","山西","内蒙古","陕西","吉林","福建","贵州","广东",
+                "青海","西藏","四川","宁夏","海南","台湾","香港","澳门","南海诸岛"};
+        List<Province> proList = new ArrayList<>();
+        List<String> listFileName;
+        Province allpro = new Province("全国"); // 创建全国对象
+        proList.add(allpro);
+        for(String pro:  Provinces)
+        {
+            Province provin = new Province(pro);
+            proList.add(provin);
+        }
+        File file = new File(getlog.class.getClassLoader().getResource("../../log").getPath());
+        try
+        {
+            String path = file.getAbsolutePath();
+            listFileName = getAllFileName();
+            for(String name : listFileName)
+            {
+                if(date==null)
+                {
+                    if(name.equals(listFileName.get(listFileName.size()-1)))
+                        break;
+                    InformationProcessing(path+"/"+name+".log.txt",proList,allpro);
+                    continue;
+                }
+                else if (listFileName.get(0).compareTo(date) > 0) break; //若输入日期小于最旧的日志
+                else if(name.compareTo(date) >= 0) break;
+                InformationProcessing(path+"/"+name+".log.txt",proList,allpro);
+            }
+        }catch(Exception e){}
+        return proList;
+    }
 
+    public static List<Province> logYesterday(String date)
+    {
+        List<Province> proList = provinceYesterday(date);
+        return proList;
+    }
+
+    public static Province logYesterday(String Pro ,String date){
+        List<Province> proList = provinceYesterday(date);
+        Province pro = new Province(Pro);
+        for(Province pro1:proList)
+        {
+            if(pro1.getProvince().equals(Pro))
+            {
+                pro.setIp(pro1.getIp());
+                pro.setSp(pro1.getSp());
+                pro.setCure(pro1.getCure());
+                pro.setDead(pro1.getDead());
+            }
+        }
+        return pro;
+    }
     public static List<Province> log(String date){
         List<Province> proList = province(date);
         return proList;
     }
+
     public static Province log(String Pro ,String date){
         List<Province> proList = province(date);
         Province pro = new Province(Pro);
